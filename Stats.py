@@ -19,4 +19,3 @@ for row in data:
     for good in row['data']:
         print(good, row['data'][good])
         sql.save_element(row['instanceID'], row['_id'], ts, good, row['data'][good])
-        pass

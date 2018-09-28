@@ -37,6 +37,16 @@ class SQL:
             )
             """)
 
+        self.cursor.execute("""
+            CREATE TABLE 
+            IF NOT EXISTS
+            instances 
+            (
+                instanceID TEXT UNIQUE ON CONFLICT IGNORE,
+                server_name TEXT UNIQUE ON CONFLICT IGNORE
+            )
+            """)
+
         self.conn.commit()
 
     def save_element(self, iid, _id, ts, name, amount):
@@ -48,6 +58,24 @@ class SQL:
             (?,?,?,?,?)
             """,
             (iid, _id, ts, name, amount)
+            )
+        self.cursor.execute("""
+            INSERT INTO 
+            goods
+            (name)
+            VALUES
+            (?)
+            """,
+            (name,)
+            )
+        self.cursor.execute("""
+            INSERT INTO 
+            instances
+            (instanceID)
+            VALUES
+            (?)
+            """,
+            (iid,)
             )
         self.conn.commit()
         pass
