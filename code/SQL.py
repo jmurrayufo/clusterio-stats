@@ -7,6 +7,7 @@ class SQL:
         # Open connect to db
 
         self.conn = sqlite3.connect(db_name)
+        self.conn.row_factory = self.dict_factory
 
         self.cursor = self.conn.cursor()
 
@@ -79,3 +80,10 @@ class SQL:
             )
         self.conn.commit()
         pass
+
+    @staticmethod
+    def dict_factory(cursor, row):
+        d = {}
+        for idx, col in enumerate(cursor.description):
+            d[col[0]] = row[idx]
+        return d
